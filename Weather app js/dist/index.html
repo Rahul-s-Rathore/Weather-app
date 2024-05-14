@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather app</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-screen flex justify-center items-center bg-slate-500 md:p-6">
+    <div class="card p-4 flex flex-col w-full md:w-[30%] lg:[40%]  bg-gradient-to-r from-indigo-900 via-teal-500 to-blue-400 rounded-3xl pb-16" >
+        <div class="search-bar w-full flex justify-center gap-8  ">
+            <input type="text" name="" id="search" spellcheck="false" placeholder="Enter city Name" class="w-full px-5  py-3 rounded-3xl border-none outline-none text-xl" autofocus> 
+        </div>
+
+        <div class="visuals flex justify-center" ><img src="images/clouds.png" alt=""></div>
+
+        <div class="main-res flex items-center flex-col gap-3">
+            <p class="text-6xl temp">22c</p>
+            <p class="text-3xl city">City Name</p>
+        </div>
+
+        <div class="last flex justify-around mt-20">
+            <div id="humidity" class="flex items-center gap-3">
+                <img src="images/humidity.png" alt="" class="w-12">
+                <p class="flex flex-col text-center">
+                    <span class="hum text-2xl">50%</span> 
+                    <span class="text-xl">Humidity</span>
+                </p>
+            </div>
+
+            <div id="windSpeed" class="flex items-center gap-3">
+                <img src="images/wind.png" alt="" class="w-12">
+                <p class="flex flex-col text-center">
+                    <span class="wind text-2xl">20Km/h</span> 
+                    <span class="text-xl">Wind speed</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    const apiKey = "518a06318794601f44db2b5981a1c7e6";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
+    checkweather("jaipur");
+    async function checkweather(city){
+        
+     
+        // console.log(Enter);
+        
+        const response = await fetch(apiUrl + city+`&appid=${apiKey}`)
+        var data = await response.json()
+        console.log(data);
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp)+ "°C";
+        document.querySelector(".wind").innerHTML = data.wind.speed+"Km/h";
+        document.querySelector(".hum").innerHTML = data.main.humidity+"%";
+        
+    }
+    
+    let search = document.getElementById("search")
+   search.addEventListener("keyup",function(e){
+            if(e.key=="Enter"){
+                checkweather(search.value);
+                console.log(search.value);
+            }
+            else if(e.key==null){
+                checkweather(jaipur);
+
+            }
+            // console.log(e.key);
+            
+        });
+    </script>
+</body>
+</html>
